@@ -14,7 +14,7 @@ public class Lesson1 {
 	 */
 	public static void main(String[] args) {
 		// [コメント]
-		code14();
+		code1_4();
 	}
 
 	public static void code0_1() {

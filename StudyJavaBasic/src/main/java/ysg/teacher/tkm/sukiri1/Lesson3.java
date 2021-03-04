@@ -1,8 +1,11 @@
 package ysg.teacher.tkm.sukiri1;
 
+import java.util.Random;
+import java.util.Scanner;
+
 public class Lesson3 {
 	public static void main(String[] args) {
-
+		uranaiGame();
 	}
 
 	/**
@@ -115,5 +118,44 @@ public class Lesson3 {
 			String result = amari == 0 ? "偶数です" : "奇数です";
 			System.out.println(i + "は、" + result);
 		}
+	}
+
+	public static void uranaiGame() {
+		Scanner scan = new Scanner(System.in);
+		Random random = new Random();
+
+		System.out.println("占いゲームです：1－4の値を入力してください。");
+		// スペースで区切られ、複数の入力ができる
+		String input = scan.next();
+		int uranaiKaisu = Integer.parseInt(input);
+
+		int luckPoint = 0;
+		int count = 0;
+		for (int i = 0; i < uranaiKaisu; i++) {
+			int fortune = random.nextInt(3);
+			double uranaiResult = 0;
+
+			switch(fortune) {
+			case 1:
+				System.out.println("大吉(4Point)");
+				luckPoint = 4;
+				break;
+			case 2:
+				System.out.println("中吉(3Point)");
+				luckPoint = 3;
+				break;
+			case 3:
+				System.out.println("吉(2Point)");
+				luckPoint = 2;
+				break;
+			default:
+				System.out.println("凶(1Point)");
+				luckPoint = 1;
+			}
+			uranaiResult = luckPoint / 10;
+			count++;
+		}
+		System.out.println("占い回数: " + count + " 平均占いPoint: " + ((luckPoint / count) * 100));
+
 	}
 }
