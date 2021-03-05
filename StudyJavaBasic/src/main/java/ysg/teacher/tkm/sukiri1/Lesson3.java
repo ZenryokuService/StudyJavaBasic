@@ -158,4 +158,43 @@ public class Lesson3 {
 		System.out.println("占い回数: " + count + " 平均占いPoint: " + ((luckPoint / count) * 100));
 
 	}
+
+	/**
+	 * ド・モルガンの法則
+	 * !(P || Q) == !P && !Q
+	 * !(P && Q) == !P || !Q
+	 *
+	 * 処理の実行結果が(trueかfalseか)同じになる
+	 */
+	public static void doMorgan() {
+		boolean P = 1 == 1; // -> true
+		boolean Q = "e".equals("a"); // -> false;
+
+		// 「P　または　Q」でない　＝　「Pではない　かつ　Qではない」
+		if (!(P || Q)) {
+			System.out.println("!(P || Q) = if");
+		} else {
+			System.out.println("!(P || Q) = else");
+		}
+		// 「Pでない　かつ　Qではない」＝　「Pではない　または　Qではない」
+		if (!P && !Q) {
+			System.out.println("!P && !Q = if");
+		} else {
+			System.out.println("!P && !Q = else");
+		}
+
+		// 「P　かつ　Q」ではない＝　「Pではない　または　Qではない」
+		if (!(P && Q)) {
+			System.out.println("!(P && Q) = if");
+		} else {
+			System.out.println("!(P && Q) = else");
+		}
+		// 「P　かつ　Q」ではない＝　「Pではない　または　Qではない」
+		if (!P || !Q) {
+			System.out.println("!P || !Q = if");
+		} else {
+			System.out.println("!P || !Q = else");
+		}
+
+	}
 }
