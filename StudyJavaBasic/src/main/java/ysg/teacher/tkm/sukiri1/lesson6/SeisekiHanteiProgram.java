@@ -140,7 +140,7 @@ public class SeisekiHanteiProgram {
 			System.out.print(" / ");
 
 			// テストを先に実行してしまう。
-			int avg = (int) CalcLogic.avg(gokei, 5, 0);
+			int avg = (int) CalcLogic.avg(gokei, 5);
 			System.out.println("平均点: " + avg + SeisekiData.SEPARATOR);
 		}
 	}

@@ -33,10 +33,11 @@ public class CalcLogic {
 	 */
 	public static double avg(int gokei, int length, int keta) {
 		BigDecimal bigGokei = new BigDecimal(gokei);
-		// 小数点第何位まで計算するか指定、それ以降は四捨五入
-		bigGokei.setScale(keta);
 		BigDecimal bigLength = new BigDecimal(length);
 
-		return bigGokei.divide(bigLength, BigDecimal.ROUND_HALF_UP).doubleValue();
+		BigDecimal ans = bigGokei.divide(bigLength);
+		// 小数点第何位まで計算するか指定、それ以降は四捨五入
+		ans.setScale(keta);
+		return ans.doubleValue();
 	}
 }
