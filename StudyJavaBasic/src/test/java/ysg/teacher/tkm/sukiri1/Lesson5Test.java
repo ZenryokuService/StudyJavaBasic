@@ -12,7 +12,7 @@ public class Lesson5Test {
 	}
 
 	@Test
-	public static void code5_1Test() {
+	public void code5_1Test() {
 		target.code5_1();
 	}
 }
