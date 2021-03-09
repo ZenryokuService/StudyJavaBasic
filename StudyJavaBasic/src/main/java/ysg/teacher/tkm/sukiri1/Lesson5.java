@@ -1,5 +1,10 @@
 package ysg.teacher.tkm.sukiri1;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 /**
  * クラスの作成とメンバメソッドの実行
  * 今まで作成していたメソッドはstaticメソッドであり
@@ -14,7 +19,7 @@ public class Lesson5 {
 
 	public static void main(String[] args) {
 		Lesson5 main = new Lesson5(10);
-		main.code4_18();
+		main.saveToFile();
 	}
 
 	/**
@@ -145,10 +150,29 @@ public class Lesson5 {
 	}
 
 	/**
-	 * シンプルなメソッド定義
+	 * シンプルなメソッド定義、メンバメソッドとスタティックメソッドの実装
 	 */
 	public void code5_1() {
 		System.out.println("湊さん、こんにちは");
 	}
 
+	/**
+	 * スタティックメソッドの実装
+	 */
+	public static void code5_1Static() {
+		System.out.println("湊さん、staticこんにちは");
+	}
+
+	public void saveToFile() {
+		String path = "test.txt";
+		BufferedWriter write = null;
+		try {
+			write = Files.newBufferedWriter(Paths.get("src/main/resources", path));
+			write.write("ファイルに値を保存します。");
+			write.flush();
+			write.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
