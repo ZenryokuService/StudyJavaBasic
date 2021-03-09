@@ -1,8 +1,19 @@
 package ysg.teacher.tkm.sukiri1;
 
 /** [JavaDocコメント]
+ * メインメソッドとSystem.out.println()を理解する。
+ *
+ * コードの作成に関しては、以下のように作成する
+ * 1.環境変数を設定する
+ * 2.javaコマンドの起動確認
+ * 3.テキストファイルLesson1.javaを作成する
+ * 4.ハローワールド(code0_1()から作成する)
+ * 5.日本語表示を行うときは「chcp 932」コマンドを実行する
+ * 6.作成するファイルは、Shift Jisで作成する
+ * 7.コマンドでコード01から07まで実装と起動確認を行う
  *
  * @author 作成者の名前
+ * @see コマンドプロンプトでJava.mp4(参考資料にアップロード済み)
  */
 public class Lesson1 {
 	/** [JavaDocコメント]

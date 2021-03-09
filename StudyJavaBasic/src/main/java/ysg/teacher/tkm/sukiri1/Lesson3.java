@@ -21,7 +21,7 @@ public class Lesson3 {
 		boolean isTenki = true;
 		if (isTenki) System.out.println("Test1");
 
-		//こんな書き方はしない。けどビルドエラーはでない
+		//こんな書き方(else句)はしない。けどビルドエラーはでない
 		if (isTenki) {
 			System.out.println("Test2");
 		} else System.out.println("Test3");

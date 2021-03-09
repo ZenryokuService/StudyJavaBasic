@@ -2,6 +2,19 @@ package ysg.teacher.tkm.sukiri1;
 
 import java.util.Scanner;
 
+/**
+ * コマンドプロンプロではなくEclipseにて実装する。
+ * 演算子の理解と練習を行う
+ * 【パッケージング】
+ * ysg.student.名前(略語可).sukiri1.lesson2: 授業、予習で書き写すコード
+ *
+ *【メソッドの実装】
+ *・メインメソッドを一つ作り、各写経するコードを「codeX_X」のようにメソッドを作り、写経する
+ *・「教科書の『コード2-1』」であれば「code2_1」になる
+ *
+ *
+ * @author 作成者の名前
+ */
 public class Lesson2 {
 
 	public static void main(String[] args) {
@@ -33,7 +46,7 @@ public class Lesson2 {
 		int a = 5;
 		int b = 3;
 		// MathクラスがJavaAPIに定義されている
-		int m = Math.max(a, b);
+		int m = java.lang.Math.max(a, b);
 		System.out.println("比較実験：" + a + "と" + b + "とで大きい方は・・・" + m);
 	}
 
