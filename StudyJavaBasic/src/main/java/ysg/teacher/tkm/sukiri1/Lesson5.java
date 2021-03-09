@@ -143,4 +143,12 @@ public class Lesson5 {
 		// int型にキャストすると小数点以下が切り捨てされる
 		return (int) avg;
 	}
+
+	/**
+	 * シンプルなメソッド定義
+	 */
+	public void code5_1() {
+		System.out.println("湊さん、こんにちは");
+	}
+
 }

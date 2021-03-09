@@ -63,7 +63,7 @@ public class Lesson2 {
 	}
 
 	/**
-	 * 	 * java.util.Randomクラス
+	 * 	java.util.Randomクラス
 	 */
 	public static void code2_14() {
 		int r = new java.util.Random().nextInt(90);
