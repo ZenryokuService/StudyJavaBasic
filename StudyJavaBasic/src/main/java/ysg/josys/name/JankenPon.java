@@ -1,4 +1,4 @@
-package ys_g.josys.name;
+package ysg.josys.name;
 
 import java.util.Random;
 import java.util.Scanner;

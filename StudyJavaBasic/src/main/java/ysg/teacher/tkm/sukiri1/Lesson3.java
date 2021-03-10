@@ -7,7 +7,7 @@ import java.util.Scanner;
  * じゃんけんゲームを作成する。
  *
  * @author 作成者の名前
- * @see ys_g.josys.name.JankenPon
+ * @see ysg.josys.name.JankenPon
  */
 public class Lesson3 {
 	public static void main(String[] args) {
