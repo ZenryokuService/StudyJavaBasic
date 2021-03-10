@@ -9,6 +9,12 @@ import ysg.teacher.tkm.sukiri1.lesson11.player.Hero;
 
 public class Lesson11 {
 	public static void main(String[] args) {
+	}
+
+	/**
+	 * モンスターの継承関係を書いた図があってもコードがないので。。。
+	 */
+	public static void code11_opt() {
 		// 動かすコードが書いていないので。。。
 		Matango matango = new Matango("マタンゴ");
 		Hero hero = new Hero("ミナト");
