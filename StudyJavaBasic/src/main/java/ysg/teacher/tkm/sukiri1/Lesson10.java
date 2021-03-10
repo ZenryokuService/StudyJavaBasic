@@ -1,5 +1,6 @@
 package ysg.teacher.tkm.sukiri1;
 
+import ysg.teacher.tkm.sukiri1.lesson10.monster.Matango;
 import ysg.teacher.tkm.sukiri1.lesson10.player.Hero;
 import ysg.teacher.tkm.sukiri1.lesson10.player.SuperHero;
 
@@ -14,6 +15,8 @@ public class Lesson10 {
 		hero.run();
 
 		SuperHero superHero = new SuperHero();
+		// コード10-11:作成したクラスを実行する
+		superHero.attack(new Matango());
 		superHero.run();
 	}
 }

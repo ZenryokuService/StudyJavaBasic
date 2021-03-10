@@ -14,6 +14,10 @@ public class Hero {
 	/** HP */
 	private int hp = 100;
 
+	/** コンストラクタ */
+	public Hero() {
+		System.out.println("Hero!");
+	}
 	/** 攻撃 */
 	public void attack(Matango matango) {
 		System.out.println(name + "の攻撃");
