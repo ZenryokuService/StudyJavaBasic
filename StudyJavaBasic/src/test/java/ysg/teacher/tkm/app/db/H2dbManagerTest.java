@@ -2,6 +2,11 @@ package ysg.teacher.tkm.app.db;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.SQLException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -42,5 +47,19 @@ public class H2dbManagerTest {
 		target.executeQuery("show Tables;");
 	}
 
+	//@Test
+	public void testCsv() {
+		System.out.println("*** Testing ***");
+		Path file = Paths.get("src/main/resources/Items.csv");
+		try {
+			target.importCsv(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
 
 }

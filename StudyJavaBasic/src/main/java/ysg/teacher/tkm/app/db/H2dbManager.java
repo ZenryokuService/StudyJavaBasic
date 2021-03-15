@@ -1,7 +1,12 @@
 package ysg.teacher.tkm.app.db;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -26,7 +31,7 @@ public class H2dbManager {
 	private H2dbManager() {
 		try {
 
-			con = DriverManager.getConnection("jdbc:h2:D:\\Apps\\H2\\database");
+			con = DriverManager.getConnection("jdbc:h2:C:\\Users\\tkm-yogo\\Documents\\sampleCode\\database");
 			Statement stmt = con.createStatement();
 			ResultSet result = stmt.executeQuery("select * from TEST;");
 			result.next();
@@ -55,6 +60,7 @@ public class H2dbManager {
 	 */
 	@Override
 	public void finalize() {
+
 		con = null;
 		instance = null;
 	}
@@ -107,5 +113,52 @@ public class H2dbManager {
 			se.printStackTrace();
 		}
 		return isSuccess;
+	}
+
+	public boolean importCsv(Path path) throws IOException, SQLException {
+		// プリペアードステートメント
+		PreparedStatement prep = con.prepareStatement("insert into ITEMS (CETEGORY_ID,ITEM_NAME,MONEY,EFFECT_ID,EFFECT_VALUE,WEIGHT,NUMBER_OF_TIMES)"
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+		BufferedReader buf = Files.newBufferedReader(path);
+		String line = null;
+
+		// ヘッダーを飛ばす
+		buf.readLine();
+		while ((line = buf.readLine()) != null) {
+			String[] data = line.split(",");
+			System.out.println(line);
+			for (int i = 0; i < data.length; i++) {
+				switch (i) {
+				case 0:
+					prep.setString(i + 1, data[i]);
+					break;
+				case 1:
+					prep.setString(i + 1, data[i]);
+					break;
+				case 2:
+					prep.setInt(i + 1, Integer.parseInt(data[i]));
+					break;
+				case 3:
+					prep.setString(i + 1, data[i]);
+					break;
+				case 4:
+					prep.setInt(i + 1, Integer.parseInt(data[i]));
+					break;
+				case 5:
+					prep.setInt(i + 1, Integer.parseInt(data[i]));
+					break;
+				case 6:
+					prep.setInt(i + 1, Integer.parseInt(data[i]));
+					break;
+				default:
+					throw new IOException("想定外の入力です。IOExceptionfではなくユーザー定義エクセプションを使用するべき");
+				}
+			}
+			if (prep.executeUpdate() == 0) {
+				throw new SQLException("INSERTエラーです。");
+			}
+		}
+		return true;
 	}
 }
