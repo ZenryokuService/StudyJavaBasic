@@ -15,7 +15,7 @@ import java.net.Socket;
  * @author 作成者の名前
  */
 public class NaturalBornServlet {
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	/** 受け付けるおポート番号 */
 	public static final int PORT_NO = 8081;
 	/** 自分自身のインスタンス */
@@ -74,11 +74,16 @@ public class NaturalBornServlet {
 		// リクエストの読み込み
 		while(true) {
 			String inputTxt = readRequest(request);
-			System.out.println("*** サーバーソケット: リクエスト受信 " + inputTxt + "***");
-			if (inputTxt != null && inputTxt.startsWith("bye")) {
-				System.out.println("*** サーバーを終了します。 ***");
+			if (inputTxt.contains("HTTP/1.1")) {
+				System.out.println(readRequest(request, true));
+				inputTxt = getHttpResponse(inputTxt);
 				break;
+			} else {
+				if (isBye(inputTxt)) {
+					break;
+				}
 			}
+			if (DEBUG) System.out.println("*** サーバーソケット: リクエスト受信 " + inputTxt + "***");
 
 			// レスポンスを返す
 			response.write(inputTxt + SEP);
@@ -88,6 +93,38 @@ public class NaturalBornServlet {
 //			request = null;
 //			response = null;
 		}
+	}
+
+	private boolean isBye(String inputTxt) {
+		if (inputTxt != null && inputTxt.startsWith("bye")) {
+			System.out.println("*** サーバーを終了します。 ***");
+			return true;
+		}
+		return false;
+	}
+
+	private String getHttpResponse(String req) {
+		StringBuilder response = new StringBuilder();
+
+		response.append("200 OK" + SEP);
+		response.append("Access-Control-Allow-Origin: *" + SEP);
+		response.append("Connection: Keep-Alive" + SEP);
+		response.append("Content-Encoding: gzip" + SEP);
+		response.append("Content-Type: text/html; charset=utf-8" + SEP);
+		response.append("Date: Mon, 18 Jul 2016 16:06:00 GMT" + SEP);
+		response.append("Etag: \"c561c68d0ba92bbeb8b0f612a9199f722e3a621a\"" + SEP);
+		response.append("Keep-Alive: timeout=5, max=997" + SEP);
+		response.append("Last-Modified: Mon, 18 Jul 2016 02:36:04 GMT" + SEP);
+		response.append("Server: NaturalBorn" + SEP);
+		response.append("Set-Cookie: mykey=myvalue; expires=Mon, 17-Jul-2017 16:06:00 GMT; Max-Age=31449600; Path=/; secure" + SEP);
+		response.append("Transfer-Encoding: chunked" + SEP);
+		response.append("Vary: Cookie, Accept-Encoding" + SEP);
+		response.append("X-Backend-Server: developer2.webapp.scl3.mozilla.com" + SEP);
+		response.append("X-Cache-Info: not cacheable; meta data too large" + SEP);
+		response.append("X-kuma-revision: 1085259" + SEP);
+		response.append("x-frame-options: DENY" + SEP);
+
+		return response.toString();
 	}
 
 	/**
@@ -110,7 +147,33 @@ public class NaturalBornServlet {
             char ch = (char) read;
             inputTxt.append(ch);
         }
-        if (DEBUG) System.out.println("*** サーバーソケット: 完了：readRequest() ***");
+        if (DEBUG) System.out.println("*** サーバーソケット: 完了：readRequest(): " + inputTxt + " ***");
+        return inputTxt.toString();
+	}
+
+	/**
+	 * 受信した、Httpメッセージを読み込む。
+	 *
+	 * @param in Socketより取得した入力ストリーム
+	 * @return
+	 * @throws IOException
+	 */
+	private String readRequest(BufferedReader in, boolean isHttp) throws IOException {
+		if (DEBUG) System.out.println("*** サーバーソケット: readRequest(true) ***");
+		int line = 0;
+		int count = 0;
+
+		StringBuilder inputTxt = new StringBuilder();
+        // CRとCRLFの場合で入力が終了している時がある
+        while((line = in.read()) != -1) {
+            inputTxt.append((char)line);
+            if (count >= 1024) {
+            	break;
+            }
+            count++;
+        }
+
+        if (DEBUG) System.out.println("*** サーバーソケット: 完了：readRequest(true): " + inputTxt.toString() + " ***");
         return inputTxt.toString();
 	}
 
