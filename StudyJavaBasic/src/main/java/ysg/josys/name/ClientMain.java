@@ -18,8 +18,13 @@ public class ClientMain {
 	private static ClientMain main;
 	/** クライアントソケット */
 	private Socket sock = null;
+	/** 送信用のクラス */
+	private PrintWriter send;
+	/** 受信用のクラス */
+	private BufferedReader response;
+
 	/** 改行コード */
-	private static final String SEP = System.lineSeparator();
+	private static final char SEP = (char) 10;
 
 	public ClientMain() {
 		try {
@@ -71,9 +76,10 @@ public class ClientMain {
 
 	private void sendRequest(String in) {
 		try {
-			System.out.println("*** クライアントソケット: リクエスト送信" + in + " ***");
-			PrintWriter send = new PrintWriter(sock.getOutputStream());
-			send.append(in + SEP);
+			//System.out.println("*** クライアントソケット: リクエスト送信" + in + " ***");
+			send = new PrintWriter(sock.getOutputStream());
+
+			send.write(in + SEP);
 			send.flush();
 //			send.close();
 		} catch (IOException e) {
@@ -88,8 +94,10 @@ public class ClientMain {
 	private String getResponse() {
 		StringBuilder build = new StringBuilder();
 		try {
-			System.out.println("*** クライアントソケット: レスポンス受信 ***");
-			BufferedReader response = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+			// System.out.println("*** クライアントソケット: レスポンス受信 ***");
+			if (response == null) {
+				response = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+			}
 			while (true) {
 				int read = response.read();
 				if (read == 13 || read == 10) {
@@ -103,7 +111,7 @@ public class ClientMain {
 			e.printStackTrace();
 			build.append(" Errors... ");
 		}
-		System.out.println("*** クライアントソケット: 完了：レスポンス受信 ***");
+		// System.out.println("*** クライアントソケット: 完了：レスポンス受信 ***");
 		return build.toString();
 	}
 

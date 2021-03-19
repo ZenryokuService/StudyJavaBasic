@@ -15,6 +15,7 @@ import java.net.Socket;
  * @author 作成者の名前
  */
 public class NaturalBornServlet {
+	private static final boolean DEBUG = false;
 	/** 受け付けるおポート番号 */
 	public static final int PORT_NO = 8081;
 	/** 自分自身のインスタンス */
@@ -28,7 +29,7 @@ public class NaturalBornServlet {
 	/** サーバーソケット */
 	private ServerSocket server;
 	/** 改行コード */
-	private final String SEP = System.lineSeparator();
+	private final char SEP = (char) 10;
 
 	/**
 	 * 外部からの起動を禁止する。プライベートコンストラクタ。
@@ -65,27 +66,25 @@ public class NaturalBornServlet {
 	 */
 	private void execute() throws IOException {
 		System.out.println("*** サーバーソケット起動 ***");
-		System.out.println("*** サーバーソケット: accept() ***");
 		Socket sock = server.accept();
+		// リクエスト
+		request = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+		// レスポンス
+		response = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
+		// リクエストの読み込み
 		while(true) {
-			System.out.println("*** サーバー情報: " + sock.getPort() + " ***");
-			// リクエスト
-			request = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-			// レスポンス
-			response = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
-
-			// リクエストの読み込み
 			String inputTxt = readRequest(request);
+			System.out.println("*** サーバーソケット: リクエスト受信 " + inputTxt + "***");
 			if (inputTxt != null && inputTxt.startsWith("bye")) {
 				System.out.println("*** サーバーを終了します。 ***");
 				break;
 			}
 
 			// レスポンスを返す
-			response.append(inputTxt + SEP);
+			response.write(inputTxt + SEP);
 			response.flush();
 			System.out.println("*** サーバーソケット: レスポンス送信 " + inputTxt + "***");
-
+			inputTxt = null;
 //			request = null;
 //			response = null;
 		}
@@ -99,7 +98,7 @@ public class NaturalBornServlet {
 	 * @throws IOException
 	 */
 	private String readRequest(BufferedReader in) throws IOException {
-		System.out.println("*** サーバーソケット: readRequest() ***");
+		if (DEBUG) System.out.println("*** サーバーソケット: readRequest() ***");
 		int read = 0;
 		StringBuilder inputTxt = new StringBuilder();
         // CRとCRLFの場合で入力が終了している時がある
@@ -111,7 +110,7 @@ public class NaturalBornServlet {
             char ch = (char) read;
             inputTxt.append(ch);
         }
-		System.out.println("*** サーバーソケット: 完了：readRequest() ***");
+        if (DEBUG) System.out.println("*** サーバーソケット: 完了：readRequest() ***");
         return inputTxt.toString();
 	}
 
