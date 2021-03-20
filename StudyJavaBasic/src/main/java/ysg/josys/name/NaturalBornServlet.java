@@ -14,7 +14,7 @@ import java.net.Socket;
  * 単体アプリとする
  * @author 作成者の名前
  */
-public class NaturalBornServlet {
+public class NaturalBornServlet extends Thread {
 	private static final boolean DEBUG = true;
 	/** 受け付けるおポート番号 */
 	public static final int PORT_NO = 8081;
@@ -64,34 +64,46 @@ public class NaturalBornServlet {
 	/**
 	 * 起動した、サーバーソケットで待機を行う。
 	 */
-	private void execute() throws IOException {
-		System.out.println("*** サーバーソケット起動 ***");
-		Socket sock = server.accept();
-		// リクエスト
-		request = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-		// レスポンス
-		response = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
-		// リクエストの読み込み
-		while(true) {
-			String inputTxt = readRequest(request);
-			if (inputTxt.contains("HTTP/1.1")) {
-				System.out.println(readRequest(request, true));
-				inputTxt = getHttpResponse(inputTxt);
-				break;
-			} else {
-				if (isBye(inputTxt)) {
-					break;
-				}
-			}
-			if (DEBUG) System.out.println("*** サーバーソケット: リクエスト受信 " + inputTxt + "***");
+	public void run()  {
+		try {
+			System.out.println("*** サーバーソケット起動 ***");
+			Socket sock = server.accept();
+			// リクエスト
+			request = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+			// レスポンス
+			response = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
+			// リクエストの読み込み
+			while(true) {
+				String inputTxt = readRequest(request);
 
-			// レスポンスを返す
-			response.write(inputTxt + SEP);
-			response.flush();
-			System.out.println("*** サーバーソケット: レスポンス送信 " + inputTxt + "***");
-			inputTxt = null;
-//			request = null;
-//			response = null;
+				if (inputTxt.contains("HTTP/1.1")) {
+					System.out.println("HTTP: " + inputTxt);
+					inputTxt = getHttpResponse(inputTxt);
+				} else if ("".equals(inputTxt) ) {
+					System.out.println("***> 空リクエスト: " + inputTxt);
+					inputTxt = "<html><body>Hello World!</body></html>";
+				} else {
+					System.out.println("***> else: " + inputTxt);
+					if (isBye(inputTxt)) {
+						break;
+					}
+				}
+				if (DEBUG) System.out.println("*** サーバーソケット: リクエスト受信 " + inputTxt + "***");
+
+				// レスポンスを返す
+				response.write(inputTxt + SEP);
+				response.flush();
+				System.out.println("*** サーバーソケット: レスポンス送信 " + inputTxt + "***");
+				inputTxt = null;
+//				request.close();
+//				response.close();
+//				sock.close();
+//				request = null;
+//				response = null;
+				break;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -138,10 +150,15 @@ public class NaturalBornServlet {
 		if (DEBUG) System.out.println("*** サーバーソケット: readRequest() ***");
 		int read = 0;
 		StringBuilder inputTxt = new StringBuilder();
+//		System.out.println("**** read() : " + in.read());
+//		System.out.println("**** ready() : " + in.ready());
+//		System.out.println("**** readLine() : " + in.readLine());
+
         // CRとCRLFの場合で入力が終了している時がある
-        while((read = in.read()) != -1) {
+        while((read = in.read()) > 0) {
             // 空の場合
             if (read == 10 || read == 13) {
+            	System.out.println("*** read break ***");
             	break;
             }
             char ch = (char) read;
@@ -160,17 +177,17 @@ public class NaturalBornServlet {
 	 */
 	private String readRequest(BufferedReader in, boolean isHttp) throws IOException {
 		if (DEBUG) System.out.println("*** サーバーソケット: readRequest(true) ***");
-		int line = 0;
-		int count = 0;
+		int read = -1;
+		String red = null;
 
 		StringBuilder inputTxt = new StringBuilder();
         // CRとCRLFの場合で入力が終了している時がある
-        while((line = in.read()) != -1) {
-            inputTxt.append((char)line);
-            if (count >= 1024) {
+        while((red = in.readLine()) != null) {
+            System.out.println(red);
+            inputTxt.append(red);
+            if ("".equals(red)) {
             	break;
             }
-            count++;
         }
 
         if (DEBUG) System.out.println("*** サーバーソケット: 完了：readRequest(true): " + inputTxt.toString() + " ***");
@@ -185,8 +202,8 @@ public class NaturalBornServlet {
 		main = new NaturalBornServlet();
 
 		try {
-			main.execute();
-		} catch (IOException e) {
+			main.start();
+		} catch (Exception e) {
 			System.out.println("*** 例外が発生しました。 " + e.getMessage() + "***");
 			e.printStackTrace();
 		}
