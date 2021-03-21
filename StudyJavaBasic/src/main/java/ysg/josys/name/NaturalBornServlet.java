@@ -100,7 +100,7 @@ public class NaturalBornServlet extends Thread {
 //				sock.close();
 //				request = null;
 //				response = null;
-				break;
+//				break;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
