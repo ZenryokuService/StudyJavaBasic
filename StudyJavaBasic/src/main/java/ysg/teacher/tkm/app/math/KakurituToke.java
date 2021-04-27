@@ -16,6 +16,13 @@ public class KakurituToke {
 		return bunshi / bunbo;
 	}
 
+	public int kumiawase(int yoso, int choice) {
+		int bunshi = kaijo(yoso);
+		int bunbo = kaijo(choice) * kaijo(yoso - choice);
+
+		return bunshi / bunbo;
+	}
+
 	public int kaijo(int num) {
 		int fact = 1;
 		for (int i = 1; i <= num; i++) {
