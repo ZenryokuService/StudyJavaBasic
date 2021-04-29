@@ -27,7 +27,7 @@ public class JankenPon {
 		int userTe = Integer.parseInt(input);
 		janken(input, "ユーザー： ");
 
-		int cpu = new Random().nextInt(2);
+		int cpu = new Random().nextInt(3);
 		janken(String.valueOf(cpu), "CPU: ");
 
 		System.out.println("ポン！");
