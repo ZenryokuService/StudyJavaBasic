@@ -55,7 +55,6 @@ public class SuperMain {
 		if (isDebug) System.out.println("propLength: " + prop.size());
 
 		prop.keySet().stream().forEach(key-> {
-			if (isDebug) System.out.println("key: " + key);
 			// key = 実行クラスの番号
 			String className = prop.getProperty(key.toString());
 			try {
@@ -104,6 +103,7 @@ public class SuperMain {
 			System.out.println("次のクラスを実行します： " + cls.getName());
 			try {
 				CommandIF cmd = cls.newInstance();
+				// 取得したクラスのexecute()を実行する
 				cmd.execute();
 			} catch (InstantiationException e) {
 				e.printStackTrace();

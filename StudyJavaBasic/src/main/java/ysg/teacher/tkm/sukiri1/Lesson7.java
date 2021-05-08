@@ -1,5 +1,7 @@
 package ysg.teacher.tkm.sukiri1;
 
+import ysg.teacher.tkm.sukiri1.lesson7.TextRpgMain_Sample;
+
 /**
  * Lesson7では、実装をある程度動くように行うと、教科書の9章まで進んでしまう。
  * 教科書と不一致な部分が出てくるので注意する。
@@ -15,7 +17,7 @@ public class Lesson7 {
 	 * @param args プログラム引数
 	 */
 	public static void main(String[] args) {
-		//TextRpgMain_Sample.executeRpg();
+		TextRpgMain_Sample.executeRpg();
 	}
 
 	public static void code10_1() {

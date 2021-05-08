@@ -40,4 +40,57 @@ public class CalcLogic {
 		ans.setScale(keta);
 		return ans.doubleValue();
 	}
+
+	public static double avg(int left, int right, boolean isTrue) {
+		// 左側の数値
+		BigDecimal bigLeft = new BigDecimal(left);
+		// 右側の数値
+		BigDecimal bigRight = new BigDecimal(right);
+
+		// left + right
+		BigDecimal ansTasu = bigLeft.add(bigRight);
+		BigDecimal ansHiku = bigLeft.subtract(bigRight);
+		BigDecimal ansKake = bigLeft.multiply(bigRight);
+		BigDecimal ansWari = bigLeft.divide(bigRight);
+		// 小数点第2位まで計算する指定、それ以降は四捨五入
+		ansTasu.setScale(2);
+
+		return ansTasu.doubleValue();
+	}
+	/**
+	 * static メソッド＝メインメソッドから直接呼び出せる。
+	 * @param a 整数型の引数
+	 * @param b 整数型の引数
+	 * @return a + bの値を返却する
+	 */
+	public static int tasu(int a, int b) {
+		return a + b;
+	}
+
+	/**
+	 * tasu()のオーバーロード。
+	 * 整数型の配列を合算する。
+	 * @param testResult 整数型の配列
+	 * @return 合計値
+	 */
+	public static int tasu(int[] testResult) {
+		int total = 0;
+
+		for (int i = 0; i < testResult.length; i++) {
+			total += testResult[i];
+		}
+		return total;
+	}
+
+	/**
+	 * static メソッド＝メインメソッドから直接呼び出せる。
+	 * @param a 整数型の引数
+	 * @param b 整数型の引数
+	 * @return a - bの値を返却する
+	 */
+	public static int hiku(int a, int b) {
+		return a - b;
+	}
+
+
 }
