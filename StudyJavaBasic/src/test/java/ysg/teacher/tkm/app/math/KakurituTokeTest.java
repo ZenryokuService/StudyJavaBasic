@@ -20,6 +20,13 @@ public class KakurituTokeTest {
 		assertEquals(24, main.kaijo(4));
 		assertEquals(120, main.kaijo(5));
 		assertEquals(60, main.junretu(5, 3));
-		assertEquals(60, main.kumiawase(10, 2));
+		assertEquals(45, main.kumiawase(10, 2));
+	}
+
+	@Test
+	public void testJoyo() {
+		assertEquals(1, 1 % 3);
+		assertEquals(1, 1 % 2);
+		assertEquals(2, 2 % 3);
 	}
 }
