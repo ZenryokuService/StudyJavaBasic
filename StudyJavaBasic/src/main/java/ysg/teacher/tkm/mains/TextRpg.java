@@ -3,6 +3,7 @@ package ysg.teacher.tkm.mains;
 import java.util.Scanner;
 
 import ysg.teacher.tkm.frw.CommandIF;
+import ysg.teacher.tkm.rpg.player.RpgHero;
 import ysg.teacher.tkm.rpg.story.RpgStory;
 
 /**
@@ -26,6 +27,10 @@ public class TextRpg implements CommandIF {
 	public void execute() {
 		// テキストORGを開始する
 		story.firstScene();
+
+		// 勇者の作成
+		RpgHero hero = story.createHero(scan);
+		story.secondScene(hero);
 	}
 
 }
