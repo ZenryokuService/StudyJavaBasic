@@ -93,13 +93,13 @@ public class SuperMain {
 				break;
 			}
 
-			if (input.matches("[0-9]") == false) {
-				System.out.println("0-9の間で入力してください。");
-				continue;
-			}
 			// 起動するクラスを取得
 			Class<CommandIF> cls = clsMap.get(input);
 
+			if (cls == null) {
+				System.out.println("対象になるキーがありません。");
+				continue;
+			}
 			System.out.println("次のクラスを実行します： " + cls.getName());
 			try {
 				CommandIF cmd = cls.newInstance();
